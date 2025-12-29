@@ -1,0 +1,53 @@
+{
+  "tasks": [
+    {
+      "id": 1,
+      "name": "Study Calculus",
+      "type": "study",
+      "duration_slots": 2,
+      "priority": 50,
+      "deadline_slot": -1,
+      "is_fixed": false,
+      "preferred_energy": 3
+    },
+    {
+      "id": 2,
+      "name": "Practice Problems",
+      "type": "practice",
+      "duration_slots": 2,
+      "priority": 40,
+      "deadline_slot": -1,
+      "is_fixed": false,
+      "preferred_energy": 2
+    },
+    {
+      "id": 3,
+      "name": "Assignment Due",
+      "type": "assignment",
+      "duration_slots": 3,
+      "priority": 80,
+      "deadline_slot": 48,
+      "is_fixed": false,
+      "preferred_energy": 0
+    }
+  ],
+  "fixed_slots": [
+    {
+      "slot_index": 18,
+      "task_id": -1
+    },
+    {
+      "slot_index": 19,
+      "task_id": -1
+    },
+    {
+      "slot_index": 20,
+      "task_id": -1
+    },
+    {
+      "slot_index": 21,
+      "task_id": -1
+    }
+  ],
+  "num_days": 7
+}
