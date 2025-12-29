@@ -49,9 +49,6 @@ ENV NEXT_LINT_DURING_BUILD=false
 ENV NEXT_PUBLIC_API_URL=http://localhost:8000
 ENV NEXT_PUBLIC_WS_URL=ws://localhost:8000
 
-# Debug: Show tsconfig.json content
-RUN echo "=== TypeScript Config ===" && cat tsconfig.json
-
 # Build the application with standalone output
 RUN npm run build
 

@@ -286,7 +286,8 @@ jobs:
           file: frontend/Dockerfile
           push: false
           tags: aesa-frontend:test
-          no-cache: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
   # ===========================================================================
   # Final Status Check
