@@ -6,6 +6,12 @@
 
 name: Docker Publish
 
+# Add workflow-level permissions
+permissions:
+  contents: read
+  packages: write
+  security-events: write
+
 on:
   push:
     branches:
