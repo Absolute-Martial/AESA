@@ -1,0 +1,75 @@
+# =============================================================================
+# Docker Ignore File
+# Excludes files from Docker build context
+# =============================================================================
+
+# Git
+.git
+.gitignore
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# Node modules (will be installed fresh in container)
+**/node_modules
+
+# Next.js build output (will be built fresh in container)
+frontend/.next
+frontend/out
+
+# Python cache
+**/__pycache__
+**/*.pyc
+**/*.pyo
+*.egg-info
+.eggs
+
+# Virtual environments
+.venv
+venv
+env
+
+# Test artifacts
+.pytest_cache
+.hypothesis
+.coverage
+htmlcov
+coverage.xml
+
+# Build artifacts
+*.exe
+*.o
+*.obj
+
+# Documentation
+docs
+*.md
+!README.md
+
+# CI/CD
+.github
+
+# Kiro specs
+.kiro
+
+# Environment files (secrets)
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+logs
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Snapshots
+.snapshots
+
+# Frontend Hint
+Frontend-Hint

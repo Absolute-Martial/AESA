@@ -1,0 +1,94 @@
+services:
+  # =============================================================================
+  # Frontend - Next.js Application
+  # =============================================================================
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://backend:8000
+      - NODE_ENV=development
+    depends_on:
+      - backend
+    volumes:
+      # Mount source for hot reload in development
+      - ./frontend/src:/app/src:ro
+      - ./frontend/public:/app/public:ro
+    networks:
+      - aesa-network
+
+  # =============================================================================
+  # Backend - FastAPI Application
+  # =============================================================================
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://postgres:postgres@postgres:5432/aesa
+      - COPILOT_API_URL=http://copilot-api:4141
+      - ENGINE_PATH=/app/engine/scheduler
+      - DEBUG=true
+      - CORS_ORIGINS=["http://localhost:3000","http://frontend:3000"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      # Mount source for development
+      - ./backend/app:/app/app:ro
+    networks:
+      - aesa-network
+
+  # =============================================================================
+  # PostgreSQL Database
+  # =============================================================================
+  postgres:
+    image: postgres:15-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=aesa
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d aesa"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - aesa-network
+
+  # =============================================================================
+  # Copilot API (Optional - LLM Proxy)
+  # =============================================================================
+  # Uncomment and configure if using copilot-api
+  # copilot-api:
+  #   image: ghcr.io/copilot-api/copilot-api:latest
+  #   ports:
+  #     - "4141:4141"
+  #   environment:
+  #     - GITHUB_TOKEN=${GITHUB_TOKEN}
+  #   networks:
+  #     - aesa-network
+
+# =============================================================================
+# Volumes
+# =============================================================================
+volumes:
+  postgres_data:
+    driver: local
+
+# =============================================================================
+# Networks
+# =============================================================================
+networks:
+  aesa-network:
+    driver: bridge
